@@ -1,3 +1,5 @@
+import classes from "./App.module.scss";
+
 export default function App() {
-  return <div>Hello, world!</div>;
+  return <div className={classes.app}>Hello, world!</div>;
 }

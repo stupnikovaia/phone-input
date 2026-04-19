@@ -10,6 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 let mode: Configuration["mode"] = "development";
+
 if (process.env.NODE_ENV === "production") {
   mode = "production";
 }
@@ -22,6 +23,23 @@ const devServer: DevServerConfiguration = {
   },
   hot: true,
 };
+
+const postcssLoader = {
+  loader: "postcss-loader",
+  options: {
+    postcssOptions: {
+      plugins: [
+        [
+          "postcss-preset-env",
+          {
+            // Options
+          },
+        ],
+      ],
+    },
+  },
+};
+
 const config: Configuration = {
   mode,
   entry: path.resolve(__dirname, "./src/index.tsx"),
@@ -48,6 +66,41 @@ const config: Configuration = {
           },
         },
       },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader", postcssLoader],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          "style-loader",
+          // Translates CSS into CommonJS
+          {
+            loader: "css-loader",
+            options: {
+              esModule: true,
+              modules: {
+                mode: "local",
+                auto: true,
+                exportGlobals: true,
+                localIdentName:
+                  mode === "development"
+                    ? "[path][name]__[local]--[hash:base64:5]"
+                    : "[hash:base64:5]",
+                localIdentContext: path.resolve(__dirname, "src"),
+                localIdentHashSalt: "my-custom-hash",
+                namedExport: false,
+                exportLocalsConvention: "as-is",
+                exportOnlyLocals: false,
+              },
+            },
+          },
+          postcssLoader,
+          // Compiles Sass to CSS
+          "sass-loader",
+        ],
+      },
     ],
   },
   resolve: {
@@ -66,13 +119,13 @@ export default config;
 /**
 + 1) проект должен собираться с помощью webpack версии 5 
 1.1) (также необходимо изучить, какие могут быть варианты target);
-2) в проекте должна быть возможность подключать стили, причем это могут быть простой css, css-модули, postcss (для него нужно подключить как минимум один плагин - autoprefixer), sass / SCSS
++ 2) в проекте должна быть возможность подключать стили, причем это могут быть простой css, css-модули, postcss (для него нужно подключить как минимум один плагин - autoprefixer), sass / SCSS
 + 3) весь код проекта должен прогоняться через babel (в нем должны быть подключены как минимум три пресета - для преобразования JS в более низкие стандарты, для работы с реактом и для транспиляции typescript)
 + 4) проект должен быть на typescript (транспиляцию ts должен делать babel, а tsc должен осуществлять проверку типов)
 5) все зависимости должны находиться в логически подходящих им секциях - dependencies / devDependencies / peerDependencies
 + 6) в проекте должна быть настройка разных source-map - для разработки и для продакшена
 7) для импортов в проекте должны быть настроены алиасы
-8) для разработки должен быть настроен  webpack dev-server
++ 8) для разработки должен быть настроен  webpack dev-server
 9) для продакшена должна быть настроена минификация кода (как по дефолту, так и Terser Plugin)
 10) код-сплиттинг (разбиение чанков по размеру / выделение модулей в отдельные чанки с React lazy или loadable)
 11) проект покрыт тестами (Jest)
