@@ -40,6 +40,12 @@ const postcssLoader = {
   },
 };
 
+const aliasConfig = {
+  // "@store": path.resolve(__dirname, "src/store/"),
+  // "@components": path.resolve(__dirname, "src/components/"),
+  "@*": path.resolve(__dirname, "src/*"),
+};
+
 const config: Configuration = {
   mode,
   entry: path.resolve(__dirname, "./src/index.tsx"),
@@ -105,6 +111,7 @@ const config: Configuration = {
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
+    alias: aliasConfig,
   },
   plugins: [
     new HtmlWebpackPlugin({
