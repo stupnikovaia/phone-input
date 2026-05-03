@@ -1,8 +1,7 @@
-const parsePhoneToArr = (phone: string): string[] => {
-  const regex = /[0-9]/g;
-  const found = phone.match(regex);
+const NUMBER_REGEX = /[0-9]/g;
 
-  return found;
+const parsePhoneToArr = (phone: string): string[] => {
+  return phone.match(NUMBER_REGEX);
 };
 
 // метод, который находит индексы * в массиве
@@ -20,4 +19,17 @@ const setPhoneToMask = (mask: string, phone: string[]) => {
       return ch;
     })
     .join("");
+};
+
+// метод, который находит индексы * в массиве
+//  (***) - *** - ** - **
+export const findPhonePositions = (mask: string): number[] => {
+  return [...mask]
+    .map((ch, idx) => {
+      if (ch.match(/\*/)) {
+        return idx;
+      }
+      return null;
+    })
+    .filter((ch) => ch !== null);
 };

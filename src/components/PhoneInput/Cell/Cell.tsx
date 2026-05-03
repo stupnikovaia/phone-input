@@ -1,3 +1,5 @@
+import { ChangeEvent, forwardRef, Ref, useState } from "react";
+
 type CellProps = {
   value: string;
   /** 1 символ */
@@ -5,8 +7,22 @@ type CellProps = {
 };
 
 /** Ячейка инпута - содержит максимум 1 цифру */
-const PhoneInput: React.FC<CellProps> = () => {
-  return <input></input>;
-};
+const Cell = forwardRef<HTMLInputElement, CellProps>(
+  (
+    { value, onChange }: CellProps,
+    ref: React.ForwardedRef<HTMLInputElement>,
+  ) => {
+    const handleChange = (
+      e: ChangeEvent<HTMLInputElement, HTMLInputElement>,
+    ) => {
+      // console.log(e.target.value);
+      // console.log("value", value);
+      onChange(e.target.value.at(-1) ?? "");
+    };
+    return (
+      <input type="number" value={value} onChange={handleChange} ref={ref} />
+    );
+  },
+);
 
-export default PhoneInput;
+export default Cell;

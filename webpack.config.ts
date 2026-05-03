@@ -41,9 +41,9 @@ const postcssLoader = {
 };
 
 const aliasConfig = {
-  // "@store": path.resolve(__dirname, "src/store/"),
-  // "@components": path.resolve(__dirname, "src/components/"),
-  "@*": path.resolve(__dirname, "src/*"),
+  "@store": path.resolve(__dirname, "src/store/"),
+  "@components": path.resolve(__dirname, "src/components/"),
+  // "@*": path.resolve(__dirname, "src/*"),
 };
 
 const config: Configuration = {

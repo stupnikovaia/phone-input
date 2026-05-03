@@ -23,7 +23,15 @@
     "emitDeclarationOnly": true,
     // Ensure that Babel can safely transpile files in the TypeScript project
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+
+    "useDefineForClassFields": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@*": ["src/*"]
+      // "components/*": ["src/components/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
