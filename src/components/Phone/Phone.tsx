@@ -18,7 +18,7 @@ type PhoneInputProps = {
 
 /** Этот компонент отвечает за одну маску и отображает ее,
  * переключение и префикс на другом уровне */
-const PhoneInput: React.FC<PhoneInputProps> = ({ mask, value, onChange }) => {
+const Phone: React.FC<PhoneInputProps> = ({ mask, value, onChange }) => {
   const [store, setStore] = useState<PhoneStore>(
     () =>
       new PhoneStore({
@@ -82,4 +82,4 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ mask, value, onChange }) => {
   );
 };
 
-export default observer(PhoneInput);
+export default observer(Phone);

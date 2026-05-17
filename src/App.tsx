@@ -1,11 +1,5 @@
-import { Select } from "@components/Select";
-import classes from "./App.module.scss";
-import PhoneInput from "./components/Phone";
-import { Mask } from "@types";
-import { useState } from "react";
-import s from "./App.module.scss";
+import PhoneInput from "@components/PhoneInput";
 
-// +213 6 12345678
 const MASKS = [
   {
     key: "ru",
@@ -24,11 +18,11 @@ const MASKS = [
 ];
 
 export default function App() {
-  const [mask, setMask] = useState<Mask>(MASKS[0]);
   return (
-    <div className={s.root}>
-      <Select value={mask} onChange={setMask} items={MASKS} />
-      <PhoneInput mask={mask} value={""} onChange={console.log} />
-    </div>
+    <PhoneInput
+      masks={MASKS}
+      value="+71234567890" // Но можно передать и с пробелами и со скобками и пр.
+      onChange={console.log} // Выведется так: +7 (123) 456 - 78 - 9/>
+    />
   );
 }
