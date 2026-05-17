@@ -1,0 +1,8 @@
+@use "./variables.scss" as *;
+
+@mixin cell {
+  padding: 10px 8px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid $light-grey;
+}

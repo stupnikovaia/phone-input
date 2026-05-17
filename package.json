@@ -36,6 +36,7 @@
   },
   "type": "module",
   "dependencies": {
+    "clsx": "^2.1.1",
     "mobx": "^6.15.0",
     "mobx-react-lite": "^4.1.1",
     "react": "^19.2.5",

@@ -1,6 +1,6 @@
 import { action, makeObservable, observable } from "mobx";
 
-import { findPhonePositions } from "../../utils";
+import { findPhonePositions, NUMBER_REGEX } from "../../utils";
 
 type PrivateFields =
   | "_phone"
@@ -22,6 +22,9 @@ class PhoneStore {
   private _phoneLength: number = null;
   private _prefix: string = "";
   private _emoji: string = "";
+  // TODO сделать такую же хрень только массив отображения где на позиции i
+  // находится индекс в маске для цифры, чтобы можно было переходить между ними просто как +/- 1
+
   // отображение индексов цифр номера в номер (на каких позициях */цифра)
   private _map: number[];
   // TODO подумать нужен ли activeIdx на уровне стора, ведь он отвечает за focus который скорее на уровне элемента где-нибудь в хуке,
@@ -59,6 +62,10 @@ class PhoneStore {
     return this._phone;
   }
 
+  get fullPhone(): string {
+    return `${this._prefix} ${this._phone}`;
+  }
+
   get phoneLength(): number {
     return this._phoneLength;
   }
@@ -69,6 +76,17 @@ class PhoneStore {
 
   get firstEmptyIdx(): number | null {
     const idx = this._phone.indexOf("*");
+    return idx > 0 ? idx : null;
+  }
+
+  get firstNonEmptyIdx(): number | null {
+    const re = /[0-9]/g;
+    re.exec(this._phone);
+    [...this._phone].reverse().join("").search(NUMBER_REGEX);
+    const idx =
+      this._phone.length -
+      [...this._phone].reverse().join("").search(NUMBER_REGEX) -
+      1;
     return idx > 0 ? idx : null;
   }
 
@@ -89,18 +107,19 @@ class PhoneStore {
 
   /** Удаляет цифру с позиции idx, все остальные цифры сдвигаются */
   deleteNumber(idx: number) {
+    if (this._phone[idx] === "*") {
+      return;
+    }
     const newPhone = [...this._phone];
     newPhone[idx] = "*";
 
     this._map
-      .map((idx) => this._phone[idx])
+      .map((idx) => newPhone[idx])
       .sort((a, b) => {
-        // if (a === "*" && b === "*") return 0;
         if (a === "*" && b.match(/[0-9]/)) return 1;
         if (a.match(/[0-9]/) && b === "*") return -1;
         return 0;
       })
-      .filter((x) => x !== "*")
       .forEach((ch, idx) => (newPhone[this._map[idx]] = ch));
 
     this._phone = newPhone.join("");

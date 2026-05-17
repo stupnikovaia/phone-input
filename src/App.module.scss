@@ -1,3 +1,6 @@
-.app {
-  background-color: yellow;
+.root {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.5);
 }

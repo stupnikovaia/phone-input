@@ -1,0 +1,50 @@
+@use "@styles/mixins" as *;
+@use "@styles/variables" as *;
+
+.select {
+  position: relative;
+}
+
+.current {
+  background-color: white;
+  cursor: pointer;
+  @include cell;
+
+  &.active {
+    border-color: $active-color;
+  }
+}
+
+.list {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+
+  // TODO в переменные
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid $light-grey;
+  background-color: white;
+  top: calc(100% + 10px);
+  width: 210px;
+  max-width: calc(100vw - 16px);
+
+  color: black;
+}
+
+.open {
+  display: block;
+}
+
+.item {
+  cursor: pointer;
+  padding: 8px 8px;
+  &:hover {
+    background-color: $bg-hover;
+  }
+
+  &.active {
+    background-color: $active-bg-color;
+  }
+}

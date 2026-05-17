@@ -1,4 +1,4 @@
-const NUMBER_REGEX = /[0-9]/g;
+export const NUMBER_REGEX = /[0-9]/g;
 
 const parsePhoneToArr = (phone: string): string[] => {
   return phone.match(NUMBER_REGEX);
