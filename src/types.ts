@@ -9,3 +9,5 @@ export type Mask = {
   /** Маска для ввода (например '(***) - *** - ** - **') */
   mask: string;
 };
+
+export type ValidateStatus = "pending" | "success" | "fail";

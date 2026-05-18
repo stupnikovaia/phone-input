@@ -1,6 +1,7 @@
 import { NUMBER_REGEX } from "../../../utils";
-import { ChangeEvent, forwardRef, Ref, useState } from "react";
-import s from "./Cell.module.scss";
+import { forwardRef } from "react";
+import * as s from "./Cell.module.scss";
+import cn from "clsx";
 
 type CellProps = {
   value: string;
@@ -8,6 +9,8 @@ type CellProps = {
   onChange: (number: string) => void;
   goToNext: () => void;
   goToPrev: () => void;
+  onEnter: () => void;
+  className?: string;
 };
 
 const DIGITS_SET = new Set(
@@ -17,13 +20,14 @@ const DIGITS_SET = new Set(
 /** Ячейка инпута - содержит максимум 1 цифру */
 const Cell = forwardRef<HTMLInputElement, CellProps>(
   (
-    { value, onChange, goToNext, goToPrev }: CellProps,
+    { value, onChange, goToNext, goToPrev, onEnter, className }: CellProps,
     ref: React.ForwardedRef<HTMLInputElement>,
   ) => {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      console.log(e.code);
-      // TODO вообще переделать все как keydown, handleChange не нужен
-      // NOTE обрабаываем как стирание
+      if (e.code === "Enter") {
+        onEnter();
+      }
+
       if (e.code === "Backspace") {
         onChange("");
       }
@@ -43,7 +47,7 @@ const Cell = forwardRef<HTMLInputElement, CellProps>(
         value={value}
         onKeyDown={handleKeyDown}
         ref={ref}
-        className={s.cell}
+        className={className}
         min={0}
         max={9}
       />

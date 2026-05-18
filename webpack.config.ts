@@ -43,7 +43,7 @@ const postcssLoader = {
 const aliasConfig = {
   "@store": path.resolve(__dirname, "src/store/"),
   "@components": path.resolve(__dirname, "src/components/"),
-  "@styles": path.resolve(__dirname, "src/styles/"),
+  // "@styles": path.resolve(__dirname, "src/styles/"),
   "@*": path.resolve(__dirname, "src/*"),
 };
 
@@ -97,7 +97,7 @@ const config: Configuration = {
                     : "[hash:base64:5]",
                 localIdentContext: path.resolve(__dirname, "src"),
                 localIdentHashSalt: "my-custom-hash",
-                namedExport: false,
+                namedExport: true,
                 exportLocalsConvention: "as-is",
                 exportOnlyLocals: false,
               },

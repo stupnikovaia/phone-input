@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
     "outDir": "./dist/",
     "noImplicitAny": true,
     "module": "esnext",
@@ -33,6 +34,6 @@
       // "components/*": ["src/components/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src", "src/declarations.d.ts"],
   "exclude": ["node_modules"]
 }

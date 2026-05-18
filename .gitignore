@@ -17,3 +17,5 @@ node_modules
 .pnp.*
 
 dist
+*storybook.log
+storybook-static

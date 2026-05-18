@@ -1,6 +1,11 @@
 import { action, makeObservable, observable } from "mobx";
 
-import { findPhonePositions, NUMBER_REGEX } from "../../utils";
+import {
+  findPhonePositions,
+  NUMBER_REGEX,
+  setFullPhoneToMask,
+} from "../../utils";
+import { ValidateStatus } from "@types";
 
 type PrivateFields =
   | "_phone"
@@ -8,7 +13,9 @@ type PrivateFields =
   | "_emoji"
   | "_activeIdx"
   | "_mask"
-  | "_phoneLength";
+  // TODO check исп ли где-то phoneLength
+  | "_phoneLength"
+  | "_status";
 
 type PhoneStoreProps = {
   phone: string;
@@ -22,6 +29,7 @@ class PhoneStore {
   private _phoneLength: number = null;
   private _prefix: string = "";
   private _emoji: string = "";
+  private _status: ValidateStatus = "pending";
   // TODO сделать такую же хрень только массив отображения где на позиции i
   // находится индекс в маске для цифры, чтобы можно было переходить между ними просто как +/- 1
 
@@ -40,18 +48,19 @@ class PhoneStore {
       _activeIdx: observable,
       _mask: observable,
       _phoneLength: observable,
+      _status: observable,
 
       setPhone: action,
       setNumber: action,
       deleteNumber: action,
       setActiveIdx: action,
+      updateStatus: action,
     });
     this._prefix = prefix;
     this._emoji = emoji;
     this._mask = mask;
     this._phoneLength = mask.matchAll(/\*/g).toArray().length;
-    // TODO инитить чем-то другим - утила которая парсит номер телефона в маску
-    this._phone = mask;
+    this._phone = setFullPhoneToMask(mask, phone, prefix);
     this._map = findPhonePositions(mask);
   }
 
@@ -94,6 +103,10 @@ class PhoneStore {
     return this._map;
   }
 
+  get status() {
+    return this._status;
+  }
+
   setPhone(phone: string) {
     this._phone = phone;
   }
@@ -125,8 +138,23 @@ class PhoneStore {
     this._phone = newPhone.join("");
   }
 
+  // TODO check убрать наверно его
   setActiveIdx(idx: number) {
     this._activeIdx = idx;
+  }
+
+  updateStatus = () => {
+    // NOTE: насколько я знаю, валидировать номера это трудная задача,
+    // так что просто проверяю, что номер полностью заполнен
+    if (this.fullPhone.match(/^[^*]*$/)) {
+      this._status = "success";
+    } else {
+      this._status = "fail";
+    }
+  };
+
+  resetStatus() {
+    this._status = "pending";
   }
 
   destroy() {
