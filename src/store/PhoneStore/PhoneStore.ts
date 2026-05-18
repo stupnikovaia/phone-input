@@ -7,7 +7,7 @@ import {
 } from "../../utils";
 import { ValidateStatus } from "@types";
 
-type PrivateFields = "_phone" | "_prefix" | "_activeIdx" | "_mask" | "_status";
+type PrivateFields = "_phone" | "_prefix" | "_mask" | "_status";
 
 type PhoneStoreProps = {
   phone: string;
@@ -19,21 +19,16 @@ class PhoneStore {
   private _phone: string = "";
   private _prefix: string = "";
   private _status: ValidateStatus = "pending";
-  // TODO сделать такую же хрень только массив отображения где на позиции i
-  // находится индекс в маске для цифры, чтобы можно было переходить между ними просто как +/- 1
 
   // отображение индексов цифр номера в номер (на каких позициях */цифра)
   private _map: number[];
-  // TODO подумать нужен ли activeIdx на уровне стора, ведь он отвечает за focus который скорее на уровне элемента где-нибудь в хуке,
-  // в данных он никак не играет, только если не брать activeIdx вместо передачи параметром
-  private _activeIdx: number = null;
+
   // NOTE можно сделать так, что за размер массива и количество input отвечает количество * в mask
   private _mask: string = "";
   constructor({ phone, prefix, mask }: PhoneStoreProps) {
     makeObservable<PhoneStore, PrivateFields>(this, {
       _prefix: observable,
       _phone: observable,
-      _activeIdx: observable,
       _mask: observable,
       _status: observable,
 
@@ -57,10 +52,6 @@ class PhoneStore {
 
   get fullPhone(): string {
     return `${this._prefix} ${this._phone}`;
-  }
-
-  get activeIdx(): number {
-    return this._activeIdx;
   }
 
   get firstEmptyIdx(): number | null {
