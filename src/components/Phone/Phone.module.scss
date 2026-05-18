@@ -1,0 +1,37 @@
+@use "@styles/mixins" as *;
+@use "@styles/variables" as *;
+
+.cell {
+  --active-color: #{$active-color};
+  box-sizing: border-box;
+  @include cell;
+  outline: none;
+  width: 32px;
+  text-align: center;
+
+  &:hover,
+  &:focus {
+    border-color: var(--active-color);
+  }
+
+  appearance: textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+.disabled {
+  @include disabled-cell;
+}
+
+.fail {
+  border-color: #f03738;
+  --active-color: #f03738;
+}
+
+.success {
+  border-color: #3cc13b;
+  --active-color: #3cc13b;
+}

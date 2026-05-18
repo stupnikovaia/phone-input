@@ -1,0 +1,27 @@
+.root {
+  font-family: sans-serif;
+  color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.phoneInput {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.title {
+  font-size: 12px;
+  line-height: 16px;
+  color: #000000;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+}

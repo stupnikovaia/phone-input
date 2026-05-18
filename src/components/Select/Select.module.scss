@@ -1,0 +1,72 @@
+@use "@styles/mixins" as *;
+@use "@styles/variables" as *;
+
+.select {
+  position: relative;
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.current {
+  font-size: 12px;
+  background-color: white;
+  cursor: pointer;
+  @include cell;
+
+  &:hover,
+  &.active {
+    border-color: $active-color;
+  }
+}
+
+.list {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+
+  // TODO в переменные
+  overflow-x: hidden;
+  border-radius: 8px;
+  border: 1px solid $light-grey;
+  background-color: white;
+  top: calc(100% + 10px);
+  width: 210px;
+  max-width: calc(100vw - 16px);
+  max-height: 212px;
+
+  color: black;
+}
+
+.open {
+  display: block;
+}
+
+.item {
+  cursor: pointer;
+  padding: 8px 8px;
+  &:hover {
+    background-color: $bg-hover;
+  }
+
+  &.active {
+    background-color: $active-bg-color;
+  }
+}
+
+.name {
+  // TODO в переменную
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.disabled {
+  @include disabled-cell;
+}
+
+.fail {
+  border-color: #f03738;
+}
+
+.success {
+  border-color: #3cc13b;
+}

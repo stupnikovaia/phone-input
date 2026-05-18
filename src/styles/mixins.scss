@@ -1,0 +1,15 @@
+@use "./variables.scss" as *;
+
+@mixin cell {
+  padding: 10px 8px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid $light-grey;
+}
+
+@mixin disabled-cell {
+  // TODO в переменную
+  background-color: rgba(194, 201, 209, 0.5);
+  color: #7d7d7d;
+  pointer-events: none;
+}
