@@ -13,8 +13,6 @@ type PrivateFields =
   | "_emoji"
   | "_activeIdx"
   | "_mask"
-  // TODO check исп ли где-то phoneLength
-  | "_phoneLength"
   | "_status";
 
 type PhoneStoreProps = {
@@ -26,7 +24,6 @@ type PhoneStoreProps = {
 
 class PhoneStore {
   private _phone: string = "";
-  private _phoneLength: number = null;
   private _prefix: string = "";
   private _emoji: string = "";
   private _status: ValidateStatus = "pending";
@@ -47,19 +44,16 @@ class PhoneStore {
       _emoji: observable,
       _activeIdx: observable,
       _mask: observable,
-      _phoneLength: observable,
       _status: observable,
 
       setPhone: action,
       setNumber: action,
       deleteNumber: action,
-      setActiveIdx: action,
       updateStatus: action,
     });
     this._prefix = prefix;
     this._emoji = emoji;
     this._mask = mask;
-    this._phoneLength = mask.matchAll(/\*/g).toArray().length;
     this._phone = setFullPhoneToMask(mask, phone, prefix);
     this._map = findPhonePositions(mask);
   }
@@ -73,10 +67,6 @@ class PhoneStore {
 
   get fullPhone(): string {
     return `${this._prefix} ${this._phone}`;
-  }
-
-  get phoneLength(): number {
-    return this._phoneLength;
   }
 
   get activeIdx(): number {
@@ -136,11 +126,6 @@ class PhoneStore {
       .forEach((ch, idx) => (newPhone[this._map[idx]] = ch));
 
     this._phone = newPhone.join("");
-  }
-
-  // TODO check убрать наверно его
-  setActiveIdx(idx: number) {
-    this._activeIdx = idx;
   }
 
   updateStatus = () => {
