@@ -32,7 +32,8 @@
     "paths": {
       "@*": ["src/*"]
       // "components/*": ["src/components/*"]
-    }
+    },
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src", "src/declarations.d.ts"],
   "exclude": ["node_modules"]

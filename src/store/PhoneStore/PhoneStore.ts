@@ -7,25 +7,17 @@ import {
 } from "../../utils";
 import { ValidateStatus } from "@types";
 
-type PrivateFields =
-  | "_phone"
-  | "_prefix"
-  | "_emoji"
-  | "_activeIdx"
-  | "_mask"
-  | "_status";
+type PrivateFields = "_phone" | "_prefix" | "_activeIdx" | "_mask" | "_status";
 
 type PhoneStoreProps = {
   phone: string;
   prefix: string;
-  emoji: string;
   mask: string;
 };
 
 class PhoneStore {
   private _phone: string = "";
   private _prefix: string = "";
-  private _emoji: string = "";
   private _status: ValidateStatus = "pending";
   // TODO сделать такую же хрень только массив отображения где на позиции i
   // находится индекс в маске для цифры, чтобы можно было переходить между ними просто как +/- 1
@@ -37,11 +29,10 @@ class PhoneStore {
   private _activeIdx: number = null;
   // NOTE можно сделать так, что за размер массива и количество input отвечает количество * в mask
   private _mask: string = "";
-  constructor({ phone, prefix, emoji, mask }: PhoneStoreProps) {
+  constructor({ phone, prefix, mask }: PhoneStoreProps) {
     makeObservable<PhoneStore, PrivateFields>(this, {
       _prefix: observable,
       _phone: observable,
-      _emoji: observable,
       _activeIdx: observable,
       _mask: observable,
       _status: observable,
@@ -52,7 +43,6 @@ class PhoneStore {
       updateStatus: action,
     });
     this._prefix = prefix;
-    this._emoji = emoji;
     this._mask = mask;
     this._phone = setFullPhoneToMask(mask, phone, prefix);
     this._map = findPhonePositions(mask);

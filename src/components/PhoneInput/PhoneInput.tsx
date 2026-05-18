@@ -25,7 +25,6 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
       new PhoneStore({
         phone: value,
         prefix: mask.prefix,
-        emoji: mask.emoji,
         mask: mask.mask,
       }),
   );
@@ -35,7 +34,6 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
       new PhoneStore({
         phone: value,
         prefix: mask.prefix,
-        emoji: mask.emoji,
         mask: mask.mask,
       }),
     );
